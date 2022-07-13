@@ -15,7 +15,7 @@ function main(){
             nome: nome.value,
             sobrenome: sobrenome.value,
             peso: peso.value,
-            alutra: altura.value,
+            altura: altura.value,
         });
 
         console.log(pessoas)
