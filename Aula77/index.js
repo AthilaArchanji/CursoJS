@@ -35,10 +35,11 @@ ValidaCPF.prototype.criaDigito = function (cpfParcial) {
 
 ValidaCPF.prototype.isSequencia = function(){
     const sequencia = this.cpfLimpo[0].repeat(this.cpfLimpo.length)
-    return sequencia === cpfLimpo
+    return sequencia === this.cpfLimpo
 }
 
-const cpf = new ValidaCPF('190.332.927.08')
+const cpf = new ValidaCPF('190.332.927.26')
+
 if(cpf.valida()){
     console.log(`Cpf válido`)
 }else{
