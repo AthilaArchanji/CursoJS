@@ -13,6 +13,30 @@ class ValidaFormulario {
     handleSubmite(e) {
         e.preventDefault()
         const camposValidos = this.camposSaoValidos()
+        const senhasValidas = this.senhasValidas()
+
+        if(camposValidos && senhasValidas){
+            alert('Formulário enviado.')
+            this.formulario.submit()
+        }
+    }
+
+    senhasValidas() {
+        let valid = true
+        const senha = this.formulario.querySelector('.senha')
+        const repetirSenha = this.formulario.querySelector('.repetir-senha')
+
+        if (senha.value !== repetirSenha.value) {
+            valid = false
+            this.createError(senha, 'Campos senha e repetir senha precisam ser iguais.')
+            this.createError(repetirSenha, 'Campos senha e repetir senha precisam ser iguais.')
+        }
+
+        if(senha.value < 6 || senha.value > 12){
+            valid = false
+            this.createError(senha, 'A senha deve conter entre 6 a 12 caracteres.')
+        }
+        return valid
     }
 
     camposSaoValidos() {
@@ -25,14 +49,36 @@ class ValidaFormulario {
         for (let campo of this.formulario.querySelectorAll('.validar')) {
             const label = campo.previousElementSibling.innerText
             if (!campo.value) {
-                this.createError(campo, `Campo ${label} não pode estar em branco`)
+                this.createError(campo, `Campo ${label} não pode estar em branco.`)
                 valid = false
             }
 
             if (campo.classList.contains('cpf')) {
                 if (!this.validaCPF(campo)) valid = false
             }
+
+
+            if (campo.classList.contains('usuário')) {
+                if (!this.validaUsuario(campo)) valid = false
+            }
         }
+
+        return valid
+    }
+
+    validaUsuario(campo) {
+        const usuario = campo.value
+        let valid = true
+        if (usuario.length > 12 || usuario.length < 3) {
+            this.createError(campo, 'Usuário deve ter entre 3 e 12 caracteres.')
+            valid = false
+        }
+
+        if (!usuario.match(/^[a-zA-Z0-9]+$/g)) {
+            this.createError(campo, 'Nome de usuário deve conter apenas letras e/ou números.')
+            valid = false
+        }
+        return valid
     }
 
     validaCPF(campo) {
